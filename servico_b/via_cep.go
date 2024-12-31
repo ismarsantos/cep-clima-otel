@@ -15,8 +15,8 @@ import (
 
 // ViaCepResponse exemplo simples do retorno JSON do ViaCep
 type ViaCepResponse struct {
-	Localidade string `json:"localidade"` // Nome da cidade
-	Erro       bool   `json:"erro"`       // true se não encontrou
+	Localidade string `json:"localidade"`
+	Erro       string `json:"erro"`
 }
 
 // getCityFromViaCep faz a consulta no ViaCep e retorna a localidade (cidade)
@@ -61,9 +61,9 @@ func getCityFromViaCep(ctx context.Context, cep string) (string, error) {
 			return "", err
 	}
 
-	if viaCepResp.Erro {
-			fmt.Println("CEP not found")
-			return "", errors.New("not_found")
+	if viaCepResp.Erro == "true" {
+    fmt.Println("CEP not found")
+    return "", errors.New("not_found")
 	}
 
 	fmt.Println("City found:", viaCepResp.Localidade)

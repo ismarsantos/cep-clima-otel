@@ -44,6 +44,10 @@ Além disso, foi implementado **OpenTelemetry (OTEL)** para **Distributed Tracin
 
 ### Sucesso (200):
 
+```bash
+curl -s -w '\nHTTP Status: %{http_code}\n' -X POST -H "Content-Type: application/json" -d '{"cep": "01001000"}' http://localhost:8080/cep
+```
+
 ```json
 {
   "city": "São Paulo",
@@ -51,26 +55,33 @@ Além disso, foi implementado **OpenTelemetry (OTEL)** para **Distributed Tracin
   "temp_F": 83.3,
   "temp_K": 301.5
 }
+
+HTTP Status: 200
 ```
 
 ### CEP inválido (422):
 
+```bash
+curl -s -w '\nHTTP Status: %{http_code}\n' -X POST -H "Content-Type: application/json" -d '{"cep": "asdasd"}' http://localhost:8080/cep
+```
+
 ```json
 { "message": "invalid zipcode" }
+
+HTTP Status: 422
 ```
 
 ### CEP não encontrado (404):
 
-```json
-{ "message": "can not find zipcode" }
+```bash
+curl -s -w '\nHTTP Status: %{http_code}\n' -X POST -H "Content-Type: application/json" -d '{"cep": "01010101"}' http://localhost:8080/cep
 ```
 
-## Referências
+```json
+{ "message": "can not find zipcode" }
 
-- [OpenTelemetry Go - Getting Started](https://opentelemetry.io/docs/instrumentation/go/getting-started/)
-- [Zipkin.io](https://zipkin.io/)
-- [ViaCEP](https://viacep.com.br/)
-- [WeatherAPI](https://www.weatherapi.com/)
+HTTP Status: 404
+```
 
 ---
 
@@ -94,3 +105,10 @@ Esta estrutura e código-fonte ilustram:
    - Retorna 404 se o CEP não for encontrado pelo ViaCEP.
 3. **Tracing distribuído** entre A e B, configurado para exportar spans ao Zipkin.
 4. **Docker** e **docker-compose** para subir `servicoA`, `servicoB` e `zipkin` juntos.
+
+## Referências
+
+- [OpenTelemetry Go - Getting Started](https://opentelemetry.io/docs/instrumentation/go/getting-started/)
+- [Zipkin.io](https://zipkin.io/)
+- [ViaCEP](https://viacep.com.br/)
+- [WeatherAPI](https://www.weatherapi.com/)
