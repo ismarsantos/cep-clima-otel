@@ -48,7 +48,7 @@ Além disso, foi implementado **OpenTelemetry (OTEL)** para **Distributed Tracin
 curl -s -w '\nHTTP Status: %{http_code}\n' -X POST -H "Content-Type: application/json" -d '{"cep": "01001000"}' http://localhost:8080/cep
 ```
 
-```json
+```bash
 {
   "city": "São Paulo",
   "temp_C": 28.5,
@@ -65,7 +65,7 @@ HTTP Status: 200
 curl -s -w '\nHTTP Status: %{http_code}\n' -X POST -H "Content-Type: application/json" -d '{"cep": "asdasd"}' http://localhost:8080/cep
 ```
 
-```json
+```bash
 { "message": "invalid zipcode" }
 
 HTTP Status: 422
@@ -77,7 +77,7 @@ HTTP Status: 422
 curl -s -w '\nHTTP Status: %{http_code}\n' -X POST -H "Content-Type: application/json" -d '{"cep": "01010101"}' http://localhost:8080/cep
 ```
 
-```json
+```bash
 { "message": "can not find zipcode" }
 
 HTTP Status: 404
