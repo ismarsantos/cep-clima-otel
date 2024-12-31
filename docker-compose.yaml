@@ -1,0 +1,31 @@
+services:
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+
+  servico_a:
+    build:
+      context: .
+      dockerfile: servico_a/Dockerfile
+    environment:
+      - ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
+      - SERVICO_B_URL=http://servico_b:9090/temperatura
+    ports:
+      - "8080:8080"
+    depends_on:
+      - zipkin
+      - servico_b
+
+  servico_b:
+    build:
+      context: .
+      dockerfile: servico_b/Dockerfile
+    environment:
+      - ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
+      - WEATHER_API_KEY=a167323286fc46bd8f015435243112
+    ports:
+      - "9090:9090"
+    depends_on:
+      - zipkin
